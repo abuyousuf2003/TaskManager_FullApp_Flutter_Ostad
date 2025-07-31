@@ -1,17 +1,30 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager_full_app/Pages/forgot_password_email_screen.dart';
+import 'package:task_manager_full_app/Pages/main_nav_screen.dart';
+import 'package:task_manager_full_app/Pages/sign_up_screen.dart';
 
 import 'package:task_manager_full_app/widgets/backgrounddesigning.dart';
 import 'package:task_manager_full_app/widgets/form_widget.dart';
 
 
+class SignInScreen extends StatefulWidget{
+ static const String routeName = "/signInPage";
+  @override
+  State<SignInScreen> createState()=>_SignInScreenState() ;
+}
 
-class SignInScreen extends StatelessWidget{
 
-  void SignUpPage()
-  {
 
-  }
+class _SignInScreenState extends State<SignInScreen>{
+
+
+bool _obscureText = false;
+
+ 
+ TextEditingController emailController = TextEditingController();
+ TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -37,8 +50,8 @@ class SignInScreen extends StatelessWidget{
            Form(child: 
            TextFormField(
             textInputAction: TextInputAction.next,
-                   // controller: _textController,
-                 
+                   controller: emailController,
+                 autovalidateMode: AutovalidateMode.onUserInteraction,
                  
                  
                  decoration: InputDecoration(
@@ -51,14 +64,19 @@ class SignInScreen extends StatelessWidget{
         //2nd form
          SizedBox(height: 10,),
          Form(child: TextFormField(
-           
-      
-          // controller: _textController,
-          obscureText:true,
+          
+       autovalidateMode: AutovalidateMode.onUserInteraction,
+          controller:passwordController,
+         obscureText: _obscureText,
           maxLength: 16,
                
                decoration: InputDecoration(
-        suffixIcon: Icon(Icons.remove_red_eye),
+        suffixIcon: IconButton(onPressed: (){
+          setState(() {
+            _obscureText = !_obscureText;
+          });
+        }, icon:Icon(_obscureText ? Icons.visibility_off : Icons.visibility) ),
+
                labelText:"password" ,
                 
                ),
@@ -73,11 +91,13 @@ class SignInScreen extends StatelessWidget{
          shape: BeveledRectangleBorder()
            ),
            
-           onPressed: (){}, child: Icon(Icons.arrow_right_alt_rounded)),
+           onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, MainNavScreen.routeName,(predicate) =>false);
+           }, child: Icon(Icons.arrow_right_alt_rounded)),
        ),
       
        SizedBox(height: 10,),
-       TextButton(onPressed: (){}, child: Text("Forget Password ? ",style: TextStyle(color: Colors.grey),)),
+       TextButton(onPressed: (){Navigator.pushNamed(context, ForgotPasswordEmailScreen.routeName);}, child: Text("Forget Password ? ",style: TextStyle(color: Colors.grey),)),
       
       RichText(text: TextSpan(
       text: "Don't have an account? ",
@@ -88,7 +108,9 @@ class SignInScreen extends StatelessWidget{
       TextSpan(
         text: "SignUp",
         style: TextStyle(fontWeight: FontWeight.w900,color: Colors.green),
-        recognizer: TapGestureRecognizer()..onTap=(){}
+        recognizer: TapGestureRecognizer()..onTap=(){
+          Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
+        }
       )
       ],
       ),

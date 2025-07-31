@@ -5,6 +5,7 @@ import 'package:task_manager_full_app/utils/image_path.dart';
 import 'package:task_manager_full_app/widgets/backgrounddesigning.dart';
 
 class SplashPage extends StatefulWidget{
+  static const String routeName = "/";
   @override
   State<SplashPage> createState()=> _stateSplashPage();
 }
@@ -21,7 +22,7 @@ class _stateSplashPage extends  State<SplashPage>
  Future<void> moveToNextScreen()async
  {
        await Future.delayed(Duration(seconds: 1),(){
-Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
+Navigator.pushReplacementNamed(context, '/signInPage');
        });
  }
   @override
